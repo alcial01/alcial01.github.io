@@ -1,16 +1,15 @@
- html,body {
+html,body {
   height: 100%;
-  
 }
 
 .page-container {
   min-height: 100%;
+  height: auto !important;
   height: 100%;
   margin: 0 auto -120px;
   padding: 0 0 120px;
   background-color: #2F4F4F;
 }
-
 #footer {
   height: 120px;
   background-color: #222222;
@@ -38,6 +37,40 @@ body {
   background: #1E1E1E;
   color: #f9f9f9;
 }
+a {
+  color:#efefef;
+}
+.text-center {
+  padding-top: 20px;
+}
+
+#sidebar {
+  height: 100%;
+  padding-right: 0;
+  padding-top: 20px;
+
+}
+
+#sidebar .affix {
+  position:fixed;
+  top:55;
+  width:220px;
+}
+
+#sidebar .affix-bottom {
+  position:fixed;
+  top:55;
+  width:220px;
+}
+
+#sidebar .nav {
+  width: 95%;
+}
+
+#sidebar li a {
+  padding-left:1px;
+}
+
 p{
   color: #fff;
 
@@ -45,8 +78,6 @@ p{
 h3,ul,li{
   color: #fff;
 }
-
-
  #sidebar .nav>li>a {
     color: #ddd;
   }
