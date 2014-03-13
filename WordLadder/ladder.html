@@ -1,0 +1,30 @@
+
+<!DOCTYPE html>
+<html>
+   <head>
+      <link rel="stylesheet" href="ladder.css">
+      <script type="text/javascript" src="ladder.js"></script>
+      <script type="text/javascript" src="wordlists.js"></script>
+   </head>
+   <body>
+     <div style="cursor:value;">
+      <h1>Word Ladder</h1> 
+      <form name="ladderword" method="post">
+         <h2>This word ladder works only for 3,4 and 5 letter words.<br>Choose the length of you word form the dropdwon menu<br>choose your start and end word<br>Hit "Find Ladder"</h2>
+       <select name="choose" id="length">
+            <option value="3" selected>3 letter words</option>
+            <option value="4" >4 letter words</option>
+            <option value="5">5 letter words</option>
+         </select><br>
+         Start word:<input type="text" class="text1" id="word1" name="start"/>
+         End word:<input type="text" class="text2" id="word2" name="end"/><br>
+         <input type="button" class="submit" value="Find Ladder" onClick="ladder()"/>
+      </form>
+      
+         <h3> This is your Word Ladder below</h3>
+          <div id="results"></div>
+      </div>
+   </body>
+</html>
+
+
