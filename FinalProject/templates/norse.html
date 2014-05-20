@@ -1,0 +1,210 @@
+
+{% extends "bootstrap/base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+     {% block head %}
+        <meta http-equiv="content-type" content="text/html; charset=UTF-8"> 
+        <meta charset="utf-8">
+        <title>Norse Confessions</title>
+        <meta name="generator" content="Bootply" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+        <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css" rel="stylesheet">
+        <link type="text/css" href="{{'static/norse.css'}}" rel="stylesheet">
+        <script type="text/javascript" src="{{'static/norse.js' }}"></script>
+        <link rel="shortcut icon" href="/bootstrap/img/favicon.ico">
+        <link rel="apple-touch-icon" href="/bootstrap/img/apple-touch-icon.png">
+        <link rel="apple-touch-icon" sizes="72x72" href="/bootstrap/img/apple-touch-icon-72x72.png">
+        <link rel="apple-touch-icon" sizes="114x114" href="/bootstrap/img/apple-touch-icon-114x114.png">
+       
+		 {% endblock %}
+ 
+    
+  <body>
+    {% block content %}
+      <div class="wrapper">
+        <div class="box">
+          <div class="row">
+            <div class="column col-sm-3" id="sidebar">
+                <a class="logo" href="#">Norse Confessions</a>
+                <br>
+                <br>
+                <ul class="nav">
+                  <li class="active"><a href="#myModal" role="button" id ="pen"class="btn btn-primary" data-toggle="modal"><span class="glyphicon glyphicon-pencil"></span> Write your mind</a>
+                  </li>
+             
+                  <br>
+                  <li><a href="#myModal" role="button" id ="pen"class="btn btn-success" data-toggle="modal"><span class="glyphicon glyphicon-pencil"></span> Secret Confess!</a>
+                  </li>
+                </ul>
+                <ul class="nav hidden-xs" id="sidebar-footer">
+                    <li>
+                      
+                    </li>
+                </ul>
+            </div>
+            <div class= "modal fade" id = "myModal">
+			        <div class="modal-dialog">
+				        <div class="modal-content">
+					        <div class="modal-header">
+						        <button class="close" data-dismiss="modal">&times;</button>
+						          <h3 class="text-center">Anonymous Info!</h3>
+						      </div>
+						    <div class="modal-body">
+                  <form id ="myForm" method="post" action="/norseconfessions"role="form" class="form form-horizontal" >
+                    
+								    <div class="form-group">
+									    <div class="col-lg-12">
+										    {% if 'babacookie' in request.cookies: %}
+                        <input class="form-control" id ="nickName" name="nickname" value= {{ request.cookies.get('babacookie') }} required="" type="text">
+                      {% else %}
+                        <input class="form-control" id ="nickName" name="nickname" placeholder="anonymous nick name" required="" type="text">
+                      {% endif %}
+									   </div>
+								    </div>
+								
+ 								  <div class="form-group">
+									  <div class="col-lg-12">
+										 <textarea class="form-control" id ="description" value = "description" name="description" placeholder="your message"  required="" rows="3"></textarea>
+										 <br>
+										 <button id ="submitForm" class="btn btn-success pull-right" type="submit"> Done </button>
+									  </div>
+								  </div>
+							    </form>
+                </div>
+						<!-- <div class="modal-footer">
+								<button class ="btn btn-default" data-dismiss="modal" type="button">Close</button>
+								<button class="btn btn-primary" type="button"> Save Changes</button>
+						</div> -->
+				        </div>
+			        </div>
+						</div>
+            <div class="column col-sm-9" id="main">
+              <div class="padding">
+                <div class="full col-sm-9">
+                  <div class="col-sm-12" id="featured">   
+                    <div class="page-header text-muted">
+                          Feed
+                    </div> 
+                  </div>
+                  {% for i in range(post|count) %}
+                  <div class= "row"  value='{{ i }}'>
+                    <div class="col-11">       
+                      <div class="well">
+                       <div class="page-header">
+                         <h4>{{ nick_name[i] }}<small> Posts</small></h4>
+                       </div>
+                       <p class="lead">{{ post[i] }}</p> 
+                       {% set mylike = [] %}
+                           {% for key,value in  mydict3.items()  %}
+                              {% if key == (post|count)-i %}
+                              {% do mylike.append(key) %}
+                               {% endif %}
+                               {% endfor %}
+
+                       <form id ="myF" method="post" action="/like" >
+                        
+                       <input  name ="like{{ i }}" value ='like' type="submit" class="btn btn-sm btn-link"><span class="glyphicon glyphicon-thumbs-up"><small>{{mydict3[mylike[0]][0]}}</small></span></button>
+
+                        <input class="btn btn-sm btn-link" name ="like{{ i }}" value ='dislike' type="submit"><span id="down"class="glyphicon glyphicon-thumbs-down"><small>{{mydict4[mylike[0]][0] }}</small></span>
+                       </form>
+          
+                       <a href='#{{ i }}' title="Add Comment" role="button" class="btn btn-lg btn-link" data-toggle="modal"><span class="glyphicon glyphicon-plus"><small>AddComment</small></span></a>
+                       <a href="#show{{ i }}" title="Show Comment" role="button" class="btn btn-lg btn-link" data-toggle="modal"><span class="glyphicon glyphicon-comment"><small>Comments</small></span></a>
+                      </div>
+                    </div>
+                     <div class= "modal fade commentModal" id = '{{ i }}' value ='{{ i }}'>
+                    <div class="modal-dialog">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <button class="close" data-dismiss="modal">&times;</button>
+                            <h3 class="text-center" >Add a Comment!</h3>
+                        </div>
+                        <div class="modal-body">
+                        {% if 'babacookie' in request.cookies: %}
+                          <form id ="myForm2" method="post" action="/comment" role="form" class="form form-horizontal" >
+                    
+                         <div class="form-group">
+                           <div class="col-lg-12">
+
+                             <input class="form-control" id ="commName{{ i }}" name="commName{{ i }}" value={{ request.cookies.get('babacookie') }} required="" type="text">
+                             {% else %}
+                             <input class="form-control" id ="commName{{ i }}" name="commName{{ i }}" placeholder="anonymous nick name" required="" type="text">
+                             {% endif %}
+
+                           </div>
+                         </div>
+                
+                         <div class="form-group">
+                            <div class="col-lg-12">
+                              <textarea class="form-control" id ="userComment{{ i }}" value = "userComment" name="userComment{{ i }}" placeholder="your comment"  required="" rows="3"></textarea>
+                              <br>
+                              <button id ="submitForm"   class="btn btn-success pull-right" type="submit"> Done </button>
+                            </div>
+                          </div>
+                        </form>
+                       </div>
+                      </div>
+                     </div>
+                      <hr>
+                    </div>
+                       <div class= "modal fade modal-lg" id = "show{{ i }}" value ='{{ i }}'>
+                   <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                     <div class="modal-header">
+                      <button class="close" data-dismiss="modal">&times;</button>
+                       <h3 class="text-center">Comments!</h3>
+                     </div>
+                
+                         {% set myvar = [] %}
+                           {% for key,value in  mydict1.items()  %}
+                              {% if key == (post|count)-i %}
+                              {% do myvar.append(key) %}
+                               {% endif %}
+                               {% endfor %}
+                              {% for x in range(mydict1[myvar[0]]|count) %}
+                     <div class="modal-body">
+                      <div>
+                       <p>{{mydict1[myvar[0]][x]}}</p>
+                       <p> {{mydict2[myvar[0]][x]}}</p>
+                        <a href="" class="btn btn-sm btn-link"><span class="glyphicon glyphicon-thumbs-up"><small> count</small></span></a>
+                        <a href="" class="btn btn-sm btn-link"><span class="glyphicon glyphicon-thumbs-down"><small> count</small></span></a>
+                      </div>
+                    <hr>
+                   </div>   
+                   {% endfor %}
+                
+                   </div>
+                  </div>
+
+                 </div>
+                    <hr>
+                  </div>
+                 
+               
+                  {% endfor %}
+                </div>
+              </div>    
+            </div>
+            <div class="row" id="footer">    
+                          <div class="col-sm-6">
+                            <a href="/contact"class="text-center">Contact | Feedback | Report </a>
+                          </div>
+                          <div class="col-sm-6">
+                            <p>
+                            <a class="text-center">©  Copyright Norse Confessions Inc. </a>
+                            </p>
+                          </div>
+                        </div>
+          </div>
+        </div>
+     
+      {% block scripts %} 
+        <script src="http://code.jquery.com/jquery.js"></script>   
+      <!-- If no online access, fallback to our hardcoded version of jQuery -->
+        <script>window.jQuery || document.write('<script src="includes/js/jquery-1.8.2.min.js"><\/script>')</script>
+        <script type='text/javascript' src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+
+        <script type='text/javascript' src="//netdna.bootstrapcdn.com/bootstrap/3.0.2/js/bootstrap.min.js"></script>
+      {% endblock %}
+    {% endblock %}
+  </body>
